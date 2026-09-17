@@ -1,0 +1,26 @@
+services:
+  redis-stack:
+    image: redis/redis-stack-server:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:
+
+# 部分	含义
+# services:定义要启动的容器服务
+#
+# redis-stack:服务名，你可以叫它 redis-stack
+#
+# image: redis/redis-stack-server:latest  使用官方 Redis Stack Server 镜像（不只是普通 Redis）
+#
+# ports: "6379:6379"  把容器内 6379 端口映射到本机 6379，应用通过 localhost:6379 连接
+#
+# volumes: redis_data:/data  数据持久化到名为 redis_data 的 Docker 卷，容器重启后缓存不丢
+#
+# volumes: redis_data:  声明这个持久化卷
+#
+
+# RedisVL 用 COSINE 距离 [0, 2]，越小越严格。近似：distance ≈ 1 - similarity（similarity 0.85 → 设 0.15）。
