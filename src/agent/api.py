@@ -183,11 +183,9 @@ async def chat_stream(request: ChatRequest, req: Request):
             "cache_score": 0.0,
         }
         ANSWER_NODES = {"generate_answer", "direct"}
-        # token_buffer: list[str] = []
-        # tokens_sent = False  # 是否已向客户端发过 token
-        # pending_retract = False  # 下一个 token 前是否需要先发 retract 帧
+
         state = {"tokens_sent": False, "pending_retract": False}
-        # ⚠️ 注意：pending_retract 和 tokens_sent 是闭包变量，在 async def event_generator() 内部修改时要用 nonlocal 声明，或者直接用列表/字典包装（推荐）来避免 Python 闭包坑：
+
 
         async for event in agent.astream_events(
             init_state,
@@ -214,7 +212,7 @@ async def chat_stream(request: ChatRequest, req: Request):
 
             # ② 节点完成 —— 检测 rewrite_query
             elif kind == "on_chain_end" and node:
-                # ✅ 新增：检测重写节点
+                
                 if node in ANSWER_NODES:
                     continue
                 if node == "rewrite_query" and state["tokens_sent"]:
